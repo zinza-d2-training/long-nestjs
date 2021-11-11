@@ -1,6 +1,6 @@
-import { UserService } from './../user/user.service';
 import {
   BadRequestException,
+  CACHE_MANAGER,
   ConflictException,
   ForbiddenException,
   Inject,
@@ -8,19 +8,18 @@ import {
   Scope,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { REQUEST } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { Cache } from 'cache-manager';
+import { Request } from 'express';
+import { SECRET_KEY } from 'src/constants/jwt';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
-import { Repository } from 'typeorm';
-import { RegisterDto } from './dto/RegisterDto';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { SECRET_KEY } from 'src/constants/jwt';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
 import { EnumRoles } from 'src/interfaces/roles';
+import { UserService } from './../user/user.service';
 import { LoginDto } from './dto/LoginDto';
-import { AppService } from 'src/app/app.service';
+import { RegisterDto } from './dto/RegisterDto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -28,7 +27,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     @Inject(REQUEST) private request: Request,
-    private readonly appService: AppService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   getToken(): string {
@@ -87,12 +86,12 @@ export class AuthService {
 
   async logout() {
     const token = this.getToken();
-    await this.appService.setCacheValue(token, token, 3600);
+    await this.cacheManager.set(token, token, { ttl: 3600 });
   }
 
   async checkTokenExpired(): Promise<any> {
     const token = this.getToken();
-    const expired = !!(await this.appService.getCacheValue(token));
+    const expired = !!(await this.cacheManager.get(token));
     if (expired) {
       throw new BadRequestException('Token is expired!');
     }

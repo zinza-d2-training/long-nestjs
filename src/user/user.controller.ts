@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Param,
   Put,
   UsePipes,
   ValidationPipe,

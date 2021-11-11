@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { CacheModule, forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,6 +19,7 @@ import { AuthService } from './auth.service';
     }),
     UserModule,
     forwardRef(() => AppModule),
+    CacheModule.register(),
   ],
   providers: [AuthService],
   controllers: [AuthController],
