@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterDto } from 'src/auth/dto/RegisterDto';
 import { User } from 'src/entities/User.entity';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { UpdateDto } from './dto/UpdateDto';
 
 @Injectable()
@@ -24,10 +24,13 @@ export class UserService {
   }
 
   async update(id: string, newData: UpdateDto): Promise<User> {
-    const user = await this.userRepository.findOne({
-      citizenId: newData.citizenId
-    });
-    if (user && user.id != id) {
+    const conflictUsers = await this.userRepository
+      .createQueryBuilder()
+      .where('id != :id', { id })
+      .andWhere('citizen_id = :citizenId', { citizenId: newData.citizenId })
+      .execute();
+
+    if (conflictUsers.length) {
       throw new ConflictException('Citizen id is registered!');
     }
     try {
