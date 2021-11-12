@@ -3,20 +3,23 @@ import {
   Controller,
   Get,
   Post,
+  UseGuards,
   UsePipes,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/LoginDto';
 import { RegisterDto } from './dto/RegisterDto';
+import { LocalGuard } from './guards/local.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @UseGuards(LocalGuard)
   @UsePipes(new ValidationPipe())
   async login(@Body() body: LoginDto): Promise<IResponse<{ token: string }>> {
     return await this.authService.login(body);
@@ -33,7 +36,7 @@ export class AuthController {
     const user = await this.authService.validateToken();
     return {
       message: 'Fetch user data successful',
-      data: user,
+      data: user
     };
   }
 

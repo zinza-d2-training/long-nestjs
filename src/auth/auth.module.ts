@@ -7,6 +7,7 @@ import { User } from 'src/entities/User.entity';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { LocalStrategy } from './strategies/local.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -18,7 +19,7 @@ import { AuthService } from './auth.service';
     UserModule,
     CacheModule.register()
   ],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategy],
   controllers: [AuthController],
   exports: [AuthService]
 })
