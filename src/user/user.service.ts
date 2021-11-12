@@ -1,19 +1,18 @@
 import {
   BadRequestException,
   ConflictException,
-  Injectable,
+  Injectable
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RegisterDto } from 'src/auth/dto/RegisterDto';
 import { User } from 'src/entities/User.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto } from 'src/auth/dto/RegisterDto';
 import { UpdateDto } from './dto/UpdateDto';
-import { IResponse } from 'src/interfaces/base';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}
 
   async findOne(conditions: Partial<User>): Promise<User> {
@@ -21,13 +20,12 @@ export class UserService {
   }
 
   async create(data: RegisterDto): Promise<User> {
-    const savedUser = await this.userRepository.save(data);
-    return savedUser;
+    return await this.userRepository.save(data);
   }
 
-  async update(id: string, newData: UpdateDto): Promise<IResponse<User>> {
+  async update(id: string, newData: UpdateDto): Promise<User> {
     const user = await this.userRepository.findOne({
-      citizenId: newData.citizenId,
+      citizenId: newData.citizenId
     });
     if (user && user.id != id) {
       throw new ConflictException('Citizen id is registered!');
@@ -37,10 +35,7 @@ export class UserService {
     } catch {
       throw new BadRequestException();
     }
-    const newUser = await this.userRepository.findOne(id);
-    return {
-      message: 'Update successfully',
-      data: newUser,
-    };
+
+    return await this.userRepository.findOne(id);
   }
 }

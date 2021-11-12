@@ -2,12 +2,17 @@ import {
   Body,
   Controller,
   Put,
+  Req,
+  UseGuards,
   UsePipes,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
+import { response } from 'src/shared/response';
 import { UpdateDto } from './dto/UpdateDto';
 import { UserService } from './user.service';
 
@@ -15,13 +20,20 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
 
   @Put()
+  @UseGuards(JwtGuard)
   @UsePipes(new ValidationPipe())
-  async updateUser(@Body() body: UpdateDto): Promise<IResponse<User>> {
-    const user = await this.authService.validateToken();
-    return await this.userService.update(user.id, body);
+  async updateUser(
+    @Body() body: UpdateDto,
+    @Req() req: Request
+  ): Promise<IResponse<User>> {
+    await this.authService.checkBlackListToken();
+
+    const user = req.user as User;
+
+    return response(await this.userService.update(user.id, body));
   }
 }

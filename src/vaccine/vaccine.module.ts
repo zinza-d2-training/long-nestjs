@@ -8,6 +8,6 @@ import { VaccineService } from './vaccine.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Vaccine]), AuthModule],
   controllers: [VaccineController],
-  providers: [VaccineService],
+  providers: [VaccineService]
 })
 export class VaccineModule {}

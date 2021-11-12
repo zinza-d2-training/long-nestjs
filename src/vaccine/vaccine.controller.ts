@@ -1,18 +1,20 @@
 import {
   Body,
   Controller,
-  Get,
-  Post,
-  UsePipes,
-  ValidationPipe,
   Delete,
+  Get,
   Param,
+  Post,
   Put,
+  UsePipes,
+  ValidationPipe
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
+import { Auth } from 'src/decorators/auth.decorator';
 import { Vaccine } from 'src/entities/Vaccine.entity';
 import { IResponse } from 'src/interfaces/base';
 import { EnumRoles } from 'src/interfaces/roles';
+import { response } from 'src/shared/response';
 import { CreateVaccineDto } from './dto/CreateVaccineDto';
 import { UpdateVaccineDto } from './dto/UpdateVaccineDto';
 import { VaccineService } from './vaccine.service';
@@ -21,36 +23,39 @@ import { VaccineService } from './vaccine.service';
 export class VaccineController {
   constructor(
     private readonly vaccineService: VaccineService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
 
   @Get()
   async getAll(): Promise<IResponse<Vaccine[]>> {
-    return {
-      message: 'Fetch data successfully!',
-      data: await this.vaccineService.findAll(),
-    };
+    return response(await this.vaccineService.findAll());
   }
 
-  @UsePipes(new ValidationPipe())
   @Post()
+  @Auth(EnumRoles.ADMIN)
+  @UsePipes(new ValidationPipe())
   async createNewVaccine(
-    @Body() body: CreateVaccineDto,
+    @Body() body: CreateVaccineDto
   ): Promise<IResponse<Vaccine>> {
-    await this.authService.checkRole(EnumRoles.ADMIN);
-    return await this.vaccineService.create(body);
+    await this.authService.checkBlackListToken();
+    return response(await this.vaccineService.create(body));
   }
 
   @Delete('/:id')
+  @Auth(EnumRoles.ADMIN)
   async deleteVaccine(@Param('id') id: string) {
-    await this.authService.checkRole(EnumRoles.ADMIN);
-    return await this.vaccineService.delete(id);
+    await this.authService.checkBlackListToken();
+    await this.vaccineService.delete(id);
   }
 
   @Put('/:id')
+  @Auth(EnumRoles.ADMIN)
   @UsePipes(new ValidationPipe())
-  async updateVaccine(@Body() body: UpdateVaccineDto, @Param('id') id: string) {
-    await this.authService.checkRole(EnumRoles.ADMIN);
-    return await this.vaccineService.update(id, body);
+  async updateVaccine(
+    @Body() body: UpdateVaccineDto,
+    @Param('id') id: string
+  ): Promise<IResponse<Vaccine>> {
+    await this.authService.checkBlackListToken();
+    return response(await this.vaccineService.update(id, body));
   }
 }

@@ -2,7 +2,6 @@ import {
   BadRequestException,
   CACHE_MANAGER,
   ConflictException,
-  ForbiddenException,
   Inject,
   Injectable,
   Scope,
@@ -15,7 +14,6 @@ import { Cache } from 'cache-manager';
 import { Request } from 'express';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
-import { EnumRoles } from 'src/interfaces/roles';
 import { UserService } from './../user/user.service';
 import { LoginDto } from './dto/LoginDto';
 import { RegisterDto } from './dto/RegisterDto';
@@ -37,15 +35,9 @@ export class AuthService {
     return bearerToken.split(' ')[1];
   }
 
-  async login(body: LoginDto): Promise<IResponse<{ token: string }>> {
+  async login(body: LoginDto): Promise<string> {
     const user = await this.validateUser(body.citizenId, body.password);
-    const token = this.jwtService.sign({ id: user.id });
-    return {
-      message: 'Login successful',
-      data: {
-        token
-      }
-    };
+    return this.jwtService.sign({ id: user.id });
   }
 
   async register(body: RegisterDto): Promise<IResponse<User>> {
@@ -69,13 +61,13 @@ export class AuthService {
 
   async validateUser(
     citizenId: string,
-    _password: string
+    password: string
   ): Promise<User | null> {
     const user = await this.userService.findOne({ citizenId });
     if (!user) {
       throw await new BadRequestException('Citizen id is invalid!');
     }
-    const validPass = await bcrypt.compare(_password, user.password);
+    const validPass = await bcrypt.compare(password, user.password);
     if (!validPass) {
       throw await new BadRequestException('Password is invalid!');
     }
@@ -85,36 +77,16 @@ export class AuthService {
 
   async logout() {
     const token = this.getToken();
-    await this.cacheManager.set(token, token, { ttl: 3600 });
+    const decrypted = this.jwtService.verify(token);
+    const expireTime = decrypted.exp - decrypted.iat;
+    await this.cacheManager.set(token, token, { ttl: expireTime });
   }
 
-  async checkTokenExpired(): Promise<any> {
+  async checkBlackListToken(): Promise<any> {
     const token = this.getToken();
     const expired = !!(await this.cacheManager.get(token));
     if (expired) {
-      throw new BadRequestException('Token is expired!');
+      throw new UnauthorizedException('Token is expired!');
     }
-  }
-
-  async validateToken(): Promise<User> {
-    const token = this.getToken();
-    await this.checkTokenExpired();
-    let decrypt;
-    try {
-      decrypt = this.jwtService.verify(token, {
-        secret: process.env.SECRET_KEY
-      });
-    } catch {
-      throw new BadRequestException('Token is expired!');
-    }
-    return await this.userService.findOne(decrypt.id);
-  }
-
-  async checkRole(role: EnumRoles): Promise<boolean> {
-    const user = await this.validateToken();
-    if (user.role !== role) {
-      throw new ForbiddenException(`Need ${EnumRoles[role]} role`);
-    }
-    return true;
   }
 }

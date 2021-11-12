@@ -1,11 +1,10 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vaccine } from 'src/entities/Vaccine.entity';
-import { IResponse } from 'src/interfaces/base';
 import { Repository } from 'typeorm';
 import { CreateVaccineDto } from './dto/CreateVaccineDto';
 import { UpdateVaccineDto } from './dto/UpdateVaccineDto';
@@ -14,28 +13,19 @@ import { UpdateVaccineDto } from './dto/UpdateVaccineDto';
 export class VaccineService {
   constructor(
     @InjectRepository(Vaccine)
-    private readonly vaccineRepository: Repository<Vaccine>,
+    private readonly vaccineRepository: Repository<Vaccine>
   ) {}
 
   async findAll(): Promise<Vaccine[]> {
-    const vaccines = await this.vaccineRepository.find();
-    if (!vaccines.length) {
-      throw new NotFoundException('Vaccine not found');
-    }
-    return vaccines;
+    return await this.vaccineRepository.find();
   }
 
-  async findOne(id: string) {
-    const vaccine = await this.vaccineRepository.findOne(id);
-    return vaccine;
+  async findOne(id: string): Promise<Vaccine> {
+    return await this.vaccineRepository.findOne(id);
   }
 
-  async create(data: CreateVaccineDto): Promise<IResponse<Vaccine>> {
-    const savedVaccine = await this.vaccineRepository.save(data);
-    return {
-      message: 'Save vaccine successfully',
-      data: savedVaccine,
-    };
+  async create(data: CreateVaccineDto): Promise<Vaccine> {
+    return await this.vaccineRepository.save(data);
   }
 
   async delete(id: string) {
@@ -52,7 +42,6 @@ export class VaccineService {
     } catch {
       throw new BadRequestException();
     }
-    const newVaccine = await this.vaccineRepository.findOne(id);
-    return newVaccine;
+    return await this.vaccineRepository.findOne(id);
   }
 }
