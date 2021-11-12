@@ -6,14 +6,13 @@ import {
   Inject,
   Injectable,
   Scope,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Cache } from 'cache-manager';
 import { Request } from 'express';
-import { SECRET_KEY } from 'src/constants/jwt';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
 import { EnumRoles } from 'src/interfaces/roles';
@@ -27,7 +26,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     @Inject(REQUEST) private request: Request,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   getToken(): string {
@@ -44,14 +43,14 @@ export class AuthService {
     return {
       message: 'Login successful',
       data: {
-        token,
-      },
+        token
+      }
     };
   }
 
   async register(body: RegisterDto): Promise<IResponse<User>> {
     const user = await this.userService.findOne({
-      citizenId: body.citizenId,
+      citizenId: body.citizenId
     });
     if (user) {
       throw new ConflictException('Citizen id was registered');
@@ -59,18 +58,18 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(body.password, 10);
     const savedUser = await this.userService.create({
       ...body,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     return {
       message: 'Register successfully',
-      data: savedUser,
+      data: savedUser
     };
   }
 
   async validateUser(
     citizenId: string,
-    _password: string,
+    _password: string
   ): Promise<User | null> {
     const user = await this.userService.findOne({ citizenId });
     if (!user) {
@@ -103,7 +102,7 @@ export class AuthService {
     let decrypt;
     try {
       decrypt = this.jwtService.verify(token, {
-        secret: SECRET_KEY,
+        secret: process.env.SECRET_KEY
       });
     } catch {
       throw new BadRequestException('Token is expired!');

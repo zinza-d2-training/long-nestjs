@@ -10,7 +10,7 @@ import { VaccineModule } from 'src/vaccine/vaccine.module';
     TypeOrmModule.forRoot(ormconfig),
     UserModule,
     AuthModule,
-    VaccineModule,
-  ],
+    VaccineModule
+  ]
 })
 export class AppModule {}
