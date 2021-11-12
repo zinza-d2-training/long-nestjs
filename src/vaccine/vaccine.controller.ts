@@ -37,14 +37,12 @@ export class VaccineController {
   async createNewVaccine(
     @Body() body: CreateVaccineDto
   ): Promise<IResponse<Vaccine>> {
-    await this.authService.checkBlackListToken();
     return response(await this.vaccineService.create(body));
   }
 
   @Delete('/:id')
   @Auth(EnumRoles.ADMIN)
   async deleteVaccine(@Param('id') id: string) {
-    await this.authService.checkBlackListToken();
     await this.vaccineService.delete(id);
   }
 
@@ -55,7 +53,6 @@ export class VaccineController {
     @Body() body: UpdateVaccineDto,
     @Param('id') id: string
   ): Promise<IResponse<Vaccine>> {
-    await this.authService.checkBlackListToken();
     return response(await this.vaccineService.update(id, body));
   }
 }

@@ -13,7 +13,6 @@ import * as bcrypt from 'bcrypt';
 import { Cache } from 'cache-manager';
 import { Request } from 'express';
 import { User } from 'src/entities/User.entity';
-import { IResponse } from 'src/interfaces/base';
 import { UserService } from './../user/user.service';
 import { LoginDto } from './dto/LoginDto';
 import { RegisterDto } from './dto/RegisterDto';
@@ -40,7 +39,7 @@ export class AuthService {
     return this.jwtService.sign({ id: user.id });
   }
 
-  async register(body: RegisterDto): Promise<IResponse<User>> {
+  async register(body: RegisterDto): Promise<User> {
     const user = await this.userService.findOne({
       citizenId: body.citizenId
     });
@@ -53,10 +52,7 @@ export class AuthService {
       password: hashedPassword
     });
 
-    return {
-      message: 'Register successfully',
-      data: savedUser
-    };
+    return savedUser;
   }
 
   async validateUser(

@@ -3,7 +3,7 @@ import { VaccineUser } from './VaccineUser.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
+  @PrimaryGeneratedColumn({ type: 'int' })
   id: string;
 
   @Column({ name: 'first_name', type: 'nvarchar' })

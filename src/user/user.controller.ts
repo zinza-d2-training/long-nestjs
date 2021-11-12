@@ -30,8 +30,6 @@ export class UserController {
     @Body() body: UpdateDto,
     @Req() req: Request
   ): Promise<IResponse<User>> {
-    await this.authService.checkBlackListToken();
-
     const user = req.user as User;
 
     return response(await this.userService.update(user.id, body));

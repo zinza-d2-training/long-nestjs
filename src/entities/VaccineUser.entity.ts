@@ -4,14 +4,14 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { User } from './User.entity';
 import { Vaccine } from './Vaccine.entity';
 
 @Entity()
 export class VaccineUser {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
+  @PrimaryGeneratedColumn({ type: 'int' })
   id: string;
 
   @Column({ name: 'date', type: 'date' })

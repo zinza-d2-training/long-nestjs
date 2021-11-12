@@ -36,8 +36,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtGuard)
   async getMe(@Req() req: Request): Promise<IResponse<User>> {
-    await this.authService.checkBlackListToken();
-    const user = req.user;
+    const user = req.user as User;
     return response(user);
   }
 
