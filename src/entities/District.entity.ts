@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn
@@ -8,15 +9,19 @@ import {
 import { Province } from './Province.entity';
 import { Ward } from './Ward.entity';
 
-@Entity()
+@Entity('districts')
 export class District {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
-  @Column()
+  @Column({ name: 'district_name', type: 'varchar' })
   districtName: string;
 
+  @Column({ name: 'province_id', type: 'varchar' })
+  provinceId: string;
+
   @ManyToOne(() => Province, (province) => province.districts)
+  @JoinColumn({ name: 'province_id' })
   province: Province;
 
   @OneToMany(() => Ward, (ward) => ward.district)

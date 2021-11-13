@@ -8,10 +8,8 @@ export class addAddressTable1636768084858 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment'
+            type: 'varchar',
+            isPrimary: true
           },
           {
             name: 'province_name',
@@ -27,10 +25,8 @@ export class addAddressTable1636768084858 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment'
+            type: 'varchar',
+            isPrimary: true
           },
           {
             name: 'district_name',
@@ -38,7 +34,7 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           },
           {
             name: 'province_id',
-            type: 'int'
+            type: 'varchar'
           }
         ]
       })
@@ -50,10 +46,8 @@ export class addAddressTable1636768084858 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment'
+            type: 'varchar',
+            isPrimary: true
           },
           {
             name: 'ward_name',
@@ -61,7 +55,7 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           },
           {
             name: 'district_id',
-            type: 'int'
+            type: 'varchar'
           }
         ]
       })

@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormconfig } from 'src/database/ormconfig';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { AddressModule } from 'src/modules/address/address.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { VaccineModule } from 'src/modules/vaccine/vaccine.module';
@@ -15,7 +16,8 @@ import { VaccineModule } from 'src/modules/vaccine/vaccine.module';
     VaccineModule,
     ConfigModule.forRoot({
       isGlobal: true
-    })
+    }),
+    AddressModule
   ],
   providers: [
     {
