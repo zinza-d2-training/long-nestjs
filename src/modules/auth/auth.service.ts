@@ -70,19 +70,4 @@ export class AuthService {
 
     return user;
   }
-
-  async logout() {
-    const token = this.getToken();
-    const decrypted = this.jwtService.verify(token);
-    const expireTime = decrypted.exp - decrypted.iat;
-    await this.cacheManager.set(token, token, { ttl: expireTime });
-  }
-
-  async checkBlackListToken(): Promise<any> {
-    const token = this.getToken();
-    const expired = !!(await this.cacheManager.get(token));
-    if (expired) {
-      throw new UnauthorizedException('Token is expired!');
-    }
-  }
 }

@@ -8,11 +8,11 @@ import {
   ValidationPipe
 } from '@nestjs/common';
 import { Request } from 'express';
-import { AuthService } from 'src/auth/auth.service';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { User } from 'src/entities/User.entity';
 import { IResponse } from 'src/interfaces/base';
 import { response } from 'src/shared/response';
+import { AuthService } from '../auth/auth.service';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { UpdateDto } from './dto/UpdateDto';
 import { UserService } from './user.service';
 

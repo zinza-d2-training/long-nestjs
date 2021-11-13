@@ -39,10 +39,4 @@ export class AuthController {
     const user = req.user as User;
     return response(user);
   }
-
-  @Post('logout')
-  @UseGuards(JwtGuard)
-  async logout() {
-    await this.authService.logout();
-  }
 }
