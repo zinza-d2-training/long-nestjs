@@ -1,5 +1,4 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { VaccineUser } from './VaccineUser.entity';
 
 @Entity()
 export class Vaccine {
@@ -20,7 +19,4 @@ export class Vaccine {
 
   @Column({ name: 'fully_vaccinated', type: 'int' })
   fullyVaccinated: number;
-
-  @OneToMany(() => VaccineUser, (vaccineUser) => vaccineUser.id)
-  vaccineUser: VaccineUser[];
 }
