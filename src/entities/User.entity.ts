@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -23,9 +29,9 @@ export class User {
   @Column({ name: 'role', type: 'int', default: 1 })
   role: number;
 
-  @Column({ name: 'created_at', type: 'datetime' })
-  createdAt: string;
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime' })
-  updatedAt: string;
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 }

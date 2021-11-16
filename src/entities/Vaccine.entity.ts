@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class Vaccine {
@@ -20,9 +26,9 @@ export class Vaccine {
   @Column({ name: 'fully_vaccinated', type: 'int' })
   fullyVaccinated: number;
 
-  @Column({ name: 'created_at', type: 'datetime' })
-  createdAt: string;
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime' })
-  updatedAt: string;
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 }

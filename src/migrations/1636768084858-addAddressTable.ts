@@ -17,12 +17,12 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           }
         ]
@@ -48,12 +48,12 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           }
         ]
@@ -79,12 +79,12 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime',
+            type: 'timestamp',
             default: 'now()'
           }
         ]
