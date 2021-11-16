@@ -6,8 +6,8 @@ export class Province {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ name: 'province_name', type: 'varchar' })
-  provinceName: string;
+  @Column({ name: 'name', type: 'varchar' })
+  name: string;
 
   @OneToMany(() => District, (district) => district.province)
   districts: District[];

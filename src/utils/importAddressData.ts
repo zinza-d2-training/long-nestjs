@@ -14,7 +14,7 @@ import * as XLSX from 'xlsx';
     await axios
       .post('http://localhost:3000/address/provinces', {
         id: record['Mã TP'],
-        provinceName: record['Tỉnh / Thành Phố']
+        name: record['Tỉnh / Thành Phố']
       })
       .then(() => console.log('success'))
       .catch(() => console.log('failure'));
@@ -22,7 +22,7 @@ import * as XLSX from 'xlsx';
     await axios
       .post('http://localhost:3000/address/districts', {
         id: record['Mã QH'],
-        districtName: record['Quận Huyện'],
+        name: record['Quận Huyện'],
         provinceId: record['Mã TP']
       })
       .then(() => console.log('success'))
@@ -31,7 +31,7 @@ import * as XLSX from 'xlsx';
     await axios
       .post('http://localhost:3000/address/wards', {
         id: record['Mã'],
-        wardName: record['Tên'],
+        name: record['Tên'],
         districtId: record['Mã QH']
       })
       .then(() => console.log('success'))

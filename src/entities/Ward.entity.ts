@@ -12,8 +12,8 @@ export class Ward {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ name: 'ward_name', type: 'varchar' })
-  wardName: string;
+  @Column({ name: 'name', type: 'varchar' })
+  name: string;
 
   @Column({ name: 'district_id', type: 'varchar' })
   districtId: string;
