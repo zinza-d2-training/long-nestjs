@@ -1,5 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { VaccineUser } from './VaccineUser.entity';
+import { EnumRoles } from 'src/interfaces/roles';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -21,9 +27,12 @@ export class User {
   @Column({ name: 'password', type: 'varchar' })
   password: string;
 
-  @Column({ name: 'role', type: 'int', default: 0 })
+  @Column({ name: 'role', type: 'int', default: EnumRoles.NORMAL_USER })
   role: number;
 
-  @OneToMany(() => VaccineUser, (vaccineUser) => vaccineUser.id)
-  vaccineUser: VaccineUser[];
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 }

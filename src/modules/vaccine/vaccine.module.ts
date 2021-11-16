@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
 import { Vaccine } from 'src/entities/Vaccine.entity';
+import { AuthModule } from '../auth/auth.module';
 import { VaccineController } from './vaccine.controller';
 import { VaccineService } from './vaccine.service';
 

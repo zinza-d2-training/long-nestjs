@@ -9,12 +9,12 @@ import {
   UsePipes,
   ValidationPipe
 } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Vaccine } from 'src/entities/Vaccine.entity';
 import { IResponse } from 'src/interfaces/base';
 import { EnumRoles } from 'src/interfaces/roles';
 import { response } from 'src/shared/response';
+import { AuthService } from '../auth/auth.service';
 import { CreateVaccineDto } from './dto/CreateVaccineDto';
 import { UpdateVaccineDto } from './dto/UpdateVaccineDto';
 import { VaccineService } from './vaccine.service';

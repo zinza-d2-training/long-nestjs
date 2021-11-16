@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
 import { ormconfig } from 'src/database/ormconfig';
 import { RolesGuard } from 'src/guards/roles.guard';
-import { UserModule } from 'src/user/user.module';
-import { VaccineModule } from 'src/vaccine/vaccine.module';
+import { AddressModule } from 'src/modules/address/address.module';
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { UserModule } from 'src/modules/user/user.module';
+import { VaccineModule } from 'src/modules/vaccine/vaccine.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormconfig),
@@ -15,7 +16,8 @@ import { VaccineModule } from 'src/vaccine/vaccine.module';
     VaccineModule,
     ConfigModule.forRoot({
       isGlobal: true
-    })
+    }),
+    AddressModule
   ],
   providers: [
     {

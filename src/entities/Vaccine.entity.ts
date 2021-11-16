@@ -1,5 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { VaccineUser } from './VaccineUser.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class Vaccine {
@@ -21,6 +26,9 @@ export class Vaccine {
   @Column({ name: 'fully_vaccinated', type: 'int' })
   fullyVaccinated: number;
 
-  @OneToMany(() => VaccineUser, (vaccineUser) => vaccineUser.id)
-  vaccineUser: VaccineUser[];
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 }
