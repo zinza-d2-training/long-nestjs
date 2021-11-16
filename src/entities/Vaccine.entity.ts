@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Vaccine {
@@ -19,4 +19,10 @@ export class Vaccine {
 
   @Column({ name: 'fully_vaccinated', type: 'int' })
   fullyVaccinated: number;
+
+  @Column({ name: 'created_at', type: 'datetime' })
+  createdAt: string;
+
+  @Column({ name: 'updated_at', type: 'datetime' })
+  updatedAt: string;
 }

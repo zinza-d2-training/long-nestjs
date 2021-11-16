@@ -20,6 +20,12 @@ export class District {
   @Column({ name: 'province_id', type: 'varchar' })
   provinceId: number;
 
+  @Column({ name: 'created_at', type: 'datetime' })
+  createdAt: string;
+
+  @Column({ name: 'updated_at', type: 'datetime' })
+  updatedAt: string;
+
   @ManyToOne(() => Province, (province) => province.districts)
   @JoinColumn({ name: 'province_id' })
   province: Province;

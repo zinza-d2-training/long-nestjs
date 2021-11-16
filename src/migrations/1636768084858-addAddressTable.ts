@@ -14,6 +14,16 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           {
             name: 'province_name',
             type: 'varchar'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime',
+            default: 'now()'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       })
@@ -35,6 +45,16 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           {
             name: 'province_id',
             type: 'int'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime',
+            default: 'now()'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       })
@@ -56,6 +76,16 @@ export class addAddressTable1636768084858 implements MigrationInterface {
           {
             name: 'district_id',
             type: 'int'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime',
+            default: 'now()'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       })

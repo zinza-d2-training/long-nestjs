@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -20,6 +20,12 @@ export class User {
   @Column({ name: 'password', type: 'varchar' })
   password: string;
 
-  @Column({ name: 'role', type: 'int', default: 0 })
+  @Column({ name: 'role', type: 'int', default: 1 })
   role: number;
+
+  @Column({ name: 'created_at', type: 'datetime' })
+  createdAt: string;
+
+  @Column({ name: 'updated_at', type: 'datetime' })
+  updatedAt: string;
 }

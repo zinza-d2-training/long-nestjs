@@ -9,6 +9,12 @@ export class Province {
   @Column({ name: 'name', type: 'varchar' })
   name: string;
 
+  @Column({ name: 'created_at', type: 'datetime' })
+  createdAt: string;
+
+  @Column({ name: 'updated_at', type: 'datetime' })
+  updatedAt: string;
+
   @OneToMany(() => District, (district) => district.province)
   districts: District[];
 }

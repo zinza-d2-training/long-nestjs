@@ -15,4 +15,10 @@ export class Ward {
   @ManyToOne(() => District, (district) => district.wards)
   @JoinColumn({ name: 'district_id' })
   district: District;
+
+  @Column({ name: 'created_at', type: 'datetime' })
+  createdAt: string;
+
+  @Column({ name: 'updated_at', type: 'datetime' })
+  updatedAt: string;
 }
