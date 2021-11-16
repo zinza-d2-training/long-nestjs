@@ -4,21 +4,21 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryColumn
 } from 'typeorm';
 import { Province } from './Province.entity';
 import { Ward } from './Ward.entity';
 
 @Entity('districts')
 export class District {
-  @PrimaryGeneratedColumn()
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column({ name: 'name', type: 'varchar' })
   name: string;
 
   @Column({ name: 'province_id', type: 'varchar' })
-  provinceId: string;
+  provinceId: number;
 
   @ManyToOne(() => Province, (province) => province.districts)
   @JoinColumn({ name: 'province_id' })

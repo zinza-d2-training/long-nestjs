@@ -1,10 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { District } from './District.entity';
 
 @Entity('provinces')
 export class Province {
-  @PrimaryGeneratedColumn()
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column({ name: 'name', type: 'varchar' })
   name: string;

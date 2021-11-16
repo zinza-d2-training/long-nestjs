@@ -1,15 +1,15 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class AddWardDto {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  id: string;
+  id: number;
 
   @IsString()
   @IsNotEmpty()
-  wardName: string;
+  name: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  districtId: string;
+  districtId: number;
 }

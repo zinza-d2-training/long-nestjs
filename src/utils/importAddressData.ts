@@ -13,26 +13,26 @@ import * as XLSX from 'xlsx';
   for (const record of workSheets.Sheet1) {
     await axios
       .post('http://localhost:3000/address/provinces', {
-        id: record['Mã TP'],
-        name: record['Tỉnh / Thành Phố']
+        id: Number(record.provinceId),
+        name: record.provinceName
       })
       .then(() => console.log('success'))
       .catch(() => console.log('failure'));
 
     await axios
       .post('http://localhost:3000/address/districts', {
-        id: record['Mã QH'],
-        name: record['Quận Huyện'],
-        provinceId: record['Mã TP']
+        id: Number(record.districtId),
+        name: record.districtName,
+        provinceId: Number(record.provinceId)
       })
       .then(() => console.log('success'))
       .catch(() => console.log('failure'));
 
     await axios
       .post('http://localhost:3000/address/wards', {
-        id: record['Mã'],
-        name: record['Tên'],
-        districtId: record['Mã QH']
+        id: Number(record.wardId),
+        name: record.wardName,
+        districtId: Number(record.districtId)
       })
       .then(() => console.log('success'))
       .catch(() => console.log('failure'));

@@ -22,7 +22,9 @@
     "migrate:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
     "migrate:up": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "migrate:down": "ts-node ./node_modules/typeorm/cli.js migration:revert",
-    "import:address": "node dist/utils/importAddressData.js"
+    "import:address": "node dist/utils/importAddressData.js",
+    "console:dev": "ts-node -r tsconfig-paths/register src/app/console.ts",
+    "console": "node dist/app/console.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -37,8 +39,10 @@
     "cache-manager": "^3.4.4",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "commander": "^8.1.0",
     "dotenv": "^10.0.0",
     "mysql2": "^2.3.3-rc.0",
+    "nestjs-console": "^7.0.0",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

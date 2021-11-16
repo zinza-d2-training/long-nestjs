@@ -6,6 +6,7 @@ import { ormconfig } from 'src/database/ormconfig';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AddressModule } from 'src/modules/address/address.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
+import { CliModule } from 'src/modules/cli/cli.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { VaccineModule } from 'src/modules/vaccine/vaccine.module';
 @Module({
