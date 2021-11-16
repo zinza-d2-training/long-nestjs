@@ -1,3 +1,4 @@
+import { EnumRoles } from 'src/interfaces/roles';
 import {
   Column,
   CreateDateColumn,
@@ -26,7 +27,7 @@ export class User {
   @Column({ name: 'password', type: 'varchar' })
   password: string;
 
-  @Column({ name: 'role', type: 'int', default: 1 })
+  @Column({ name: 'role', type: 'int', default: EnumRoles.NORMAL_USER })
   role: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
