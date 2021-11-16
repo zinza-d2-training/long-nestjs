@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConsoleService } from 'nestjs-console';
 import { District } from 'src/entities/District.entity';
 import { Province } from 'src/entities/Province.entity';
 import { Ward } from 'src/entities/Ward.entity';
@@ -17,40 +16,31 @@ export class AddressService {
     @InjectRepository(District)
     private readonly districtRepo: Repository<District>,
     @InjectRepository(Ward)
-    private readonly wardRepo: Repository<Ward>,
-    private readonly consoleService: ConsoleService
-  ) {
-    const cli = this.consoleService.getCli();
+    private readonly wardRepo: Repository<Ward>
+  ) {}
 
-    // create a single command (See [npm commander arguments/options for more details])
-    this.consoleService.createCommand(
-      {
-        command: 'list <directory>',
-        description: 'description'
-      },
-      this.importData,
-      cli // attach the command to the cli
-    );
+  async addProvince(data: AddProvinceDto[]) {
+    return await this.provinceRepo
+      .createQueryBuilder()
+      .insert()
+      .values(data)
+      .execute();
   }
 
-  async addProvince(data: AddProvinceDto): Promise<Province> {
-    return await this.provinceRepo.save({ id: data.id, name: data.name });
+  async addDistrict(data: AddDistrictDto[]) {
+    return await this.districtRepo
+      .createQueryBuilder()
+      .insert()
+      .values(data)
+      .execute();
   }
 
-  async addDistrict(data: AddDistrictDto): Promise<District> {
-    return await this.districtRepo.save({
-      id: data.id,
-      name: data.name,
-      provinceId: data.provinceId
-    });
-  }
-
-  async addWard(data: AddWardDto): Promise<Ward> {
-    return await this.wardRepo.save({
-      id: data.id,
-      name: data.name,
-      districtId: data.districtId
-    });
+  async addWard(data: AddWardDto[]) {
+    return await this.wardRepo
+      .createQueryBuilder()
+      .insert()
+      .values(data)
+      .execute();
   }
 
   async getAddress(): Promise<Province[]> {
@@ -59,9 +49,5 @@ export class AddressService {
       .leftJoinAndSelect('province.districts', 'district')
       .leftJoinAndSelect('district.wards', 'ward')
       .getMany();
-  }
-
-  async importData() {
-    console.log(123);
   }
 }
