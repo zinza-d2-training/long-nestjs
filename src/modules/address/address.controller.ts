@@ -21,19 +21,19 @@ export class AddressController {
   @Post('provinces')
   @UsePipes(new ValidationPipe())
   async addProvince(@Body() body: AddProvinceDto[]) {
-    return await this.addressService.addProvince(body);
+    return await this.addressService.addProvinces(body);
   }
 
   @Post('districts')
   @UsePipes(new ValidationPipe())
   async addDistrict(@Body() body: AddDistrictDto[]) {
-    return await this.addressService.addDistrict(body);
+    return await this.addressService.addDistricts(body);
   }
 
   @Post('wards')
   @UsePipes(new ValidationPipe())
   async addWard(@Body() body: AddWardDto[]) {
-    return await this.addressService.addWard(body);
+    return await this.addressService.addWards(body);
   }
 
   @Get()

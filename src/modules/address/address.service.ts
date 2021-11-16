@@ -19,7 +19,7 @@ export class AddressService {
     private readonly wardRepo: Repository<Ward>
   ) {}
 
-  async addProvince(data: AddProvinceDto[]) {
+  async addProvinces(data: AddProvinceDto[]) {
     return await this.provinceRepo
       .createQueryBuilder()
       .insert()
@@ -27,7 +27,7 @@ export class AddressService {
       .execute();
   }
 
-  async addDistrict(data: AddDistrictDto[]) {
+  async addDistricts(data: AddDistrictDto[]) {
     return await this.districtRepo
       .createQueryBuilder()
       .insert()
@@ -35,7 +35,7 @@ export class AddressService {
       .execute();
   }
 
-  async addWard(data: AddWardDto[]) {
+  async addWards(data: AddWardDto[]) {
     return await this.wardRepo
       .createQueryBuilder()
       .insert()

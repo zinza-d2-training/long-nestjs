@@ -49,8 +49,8 @@ export class CliService {
         districtId: Number(record.districtId)
       });
     }
-    await this.addressService.addProvince(provinceData);
-    await this.addressService.addDistrict(districtData);
-    await this.addressService.addWard(wardData);
+    await this.addressService.addProvinces(provinceData);
+    await this.addressService.addDistricts(districtData);
+    await this.addressService.addWards(wardData);
   }
 }
