@@ -1,10 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryColumn
+  PrimaryColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { Province } from './Province.entity';
 import { Ward } from './Ward.entity';
@@ -20,11 +22,11 @@ export class District {
   @Column({ name: 'province_id', type: 'varchar' })
   provinceId: number;
 
-  @Column({ name: 'created_at', type: 'datetime' })
-  createdAt: string;
+  @CreateDateColumn({ name: 'created_at', type: 'datetime' })
+  createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime' })
-  updatedAt: string;
+  @UpdateDateColumn({ name: 'updated_at', type: 'datetime' })
+  updatedAt: Date;
 
   @ManyToOne(() => Province, (province) => province.districts)
   @JoinColumn({ name: 'province_id' })
