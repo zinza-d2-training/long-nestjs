@@ -4,10 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import { CitizenIdImage } from './CitizenIdImage.entity';
+import { Image } from './Image.entity';
 import { Ward } from './Ward.entity';
 
 @Entity('users')
@@ -48,4 +52,7 @@ export class User {
   @ManyToOne(() => Ward)
   @JoinColumn({ name: 'ward_id' })
   ward: Ward;
+
+  @OneToMany(() => CitizenIdImage, (citizenIdImage) => citizenIdImage.user)
+  citizenImages: CitizenIdImage[];
 }

@@ -39,3 +39,6 @@ lerna-debug.log*
 
 # config
 ormconfig.json
+
+# static folder
+/upload

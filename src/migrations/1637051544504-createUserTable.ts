@@ -1,3 +1,4 @@
+import { EnumRoles } from 'src/interfaces/roles';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class createUserTable1637051544504 implements MigrationInterface {
@@ -52,7 +53,8 @@ export class createUserTable1637051544504 implements MigrationInterface {
           {
             name: 'role',
             type: 'int',
-            isNullable: false
+            isNullable: false,
+            default: EnumRoles.NORMAL_USER
           },
           {
             name: 'created_at',
