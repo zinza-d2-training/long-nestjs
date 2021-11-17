@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,7 +21,8 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.register({
       secret: configs.secretKey,
       signOptions: { expiresIn: '1h' }
-    })
+    }),
+    CacheModule.register()
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy]

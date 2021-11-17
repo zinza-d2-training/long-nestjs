@@ -1,10 +1,14 @@
 import {
+  CACHE_MANAGER,
   ConflictException,
+  Inject,
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { Cache } from 'cache-manager';
 import { origin } from 'src/configs';
 import { User } from 'src/entities';
 import { CitizenIdImage } from 'src/entities/CitizenIdImage.entity';
@@ -23,7 +27,9 @@ export class AuthService {
     @InjectRepository(Image) private readonly imageRepo: Repository<Image>,
     @InjectRepository(File) private readonly fileRepo: Repository<File>,
     @InjectRepository(CitizenIdImage)
-    private readonly citizenIdImageRepo: Repository<CitizenIdImage>
+    private readonly citizenIdImageRepo: Repository<CitizenIdImage>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly jwtService: JwtService
   ) {}
 
   async register(files: Array<Express.Multer.File>, data: RegisterDto) {
@@ -77,5 +83,19 @@ export class AuthService {
     }
 
     throw null;
+  }
+
+  async logout(token: string) {
+    const decrypt = this.jwtService.verify(token);
+    const expiredTime = (decrypt.exp - decrypt.iat) as number;
+    await this.cacheManager.set(token, 'loggedOut', { ttl: expiredTime });
+  }
+
+  async checkTokenExpired(token: string): Promise<boolean> {
+    const isExpired = !!(await this.cacheManager.get(token));
+    if (isExpired) {
+      throw new UnauthorizedException('Token is expired!');
+    }
+    return true;
   }
 }

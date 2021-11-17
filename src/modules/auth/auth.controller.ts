@@ -16,12 +16,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/configs/multerConfig';
+import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/entities';
 import { response } from 'src/shared/response';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/Register.dto';
-import { JwtGuard } from './guards/jwt.guard';
 import { LocalGuard } from './guards/local.guard';
 
 @Controller('auth')
@@ -59,8 +59,15 @@ export class AuthController {
     return response({ access_token });
   }
 
+  @Post('logout')
+  @Auth()
+  async logout(@Req() req: Request) {
+    const token = req.headers.authorization.split(' ')[1];
+    await this.authService.logout(token);
+  }
+
   @Get('me')
-  @UseGuards(JwtGuard)
+  @Auth()
   async getMe(@Req() req: Request) {
     return response(req.user);
   }
