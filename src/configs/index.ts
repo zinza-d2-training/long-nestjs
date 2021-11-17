@@ -12,3 +12,5 @@ export const configs = {
     database: process.env.DB_NAME
   }
 };
+
+export const origin = process.env.ORIGIN;

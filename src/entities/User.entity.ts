@@ -3,29 +3,42 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import { CitizenIdImage } from './CitizenIdImage.entity';
+import { Image } from './Image.entity';
+import { Ward } from './Ward.entity';
 
-@Entity()
+@Entity('users')
 export class User {
-  @PrimaryGeneratedColumn({ type: 'int' })
-  id: string;
+  @PrimaryGeneratedColumn({ name: 'id', type: 'int' })
+  id: number;
 
-  @Column({ name: 'first_name', type: 'nvarchar' })
-  firstName: string;
+  @Column({ name: 'citizen_id', type: 'varchar', unique: true })
+  citizenId: string;
 
-  @Column({ name: 'last_name', type: 'nvarchar' })
-  lastName: string;
+  @Column({ name: 'full_name', type: 'varchar' })
+  fullName: string;
+
+  @Column({ name: 'gender', type: 'int' })
+  gender: number;
 
   @Column({ name: 'phone_number', type: 'varchar' })
   phoneNumber: string;
 
-  @Column({ unique: true, name: 'citizen_id', type: 'varchar' })
-  citizenId: string;
+  @Column({ name: 'dob', type: 'timestamp' })
+  dob: Date;
 
   @Column({ name: 'password', type: 'varchar' })
   password: string;
+
+  @Column({ name: 'ward_id', type: 'int' })
+  wardId: number;
 
   @Column({ name: 'role', type: 'int', default: EnumRoles.NORMAL_USER })
   role: number;
@@ -35,4 +48,11 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: Date;
+
+  @ManyToOne(() => Ward)
+  @JoinColumn({ name: 'ward_id' })
+  ward: Ward;
+
+  @OneToMany(() => CitizenIdImage, (citizenIdImage) => citizenIdImage.user)
+  citizenImages: CitizenIdImage[];
 }
