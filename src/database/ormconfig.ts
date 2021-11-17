@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { dbConfigs } from 'src/configs';
+import { configs } from 'src/configs';
 
-const { host, port, username, password, database } = dbConfigs.database;
+const { host, port, username, password, database } = configs.database;
 
 export const ormconfig: TypeOrmModuleOptions = {
   type: 'mysql',

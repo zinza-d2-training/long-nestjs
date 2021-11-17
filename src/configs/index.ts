@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 
 config({ path: '.env' });
 
-export const dbConfigs = {
+export const configs = {
   secretKey: process.env.SECRET_KEY,
   database: {
     host: process.env.DB_HOST,
